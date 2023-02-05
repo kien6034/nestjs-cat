@@ -11,6 +11,10 @@ export class CatsService {
         this.cats.push(cat);
     }
 
+    findOne(index: number): Cat {
+        return this.cats[index]
+    }
+
     findAll(): Cat[] {
         return this.cats
     }
