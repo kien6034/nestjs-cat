@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Cat } from 'src/interfaces/cat.interface';
+import { ForbiddenException } from 'src/common/exceptions/forbidden.exception';
 
 
 @Injectable()
