@@ -10,7 +10,9 @@ import {
   Query,
   Redirect,
   Req,
+  SetMetadata,
   UseFilters,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { Request } from 'express';
@@ -21,8 +23,11 @@ import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter
 import { JoiValidationPipe } from 'src/common/pipe/joi-validation.pipe';
 import { ValidationPipe } from 'src/common/pipe/validation.pipe';
 import { ParseIntPipe } from 'src/common/pipe/parse-int.pipe';
+import { RolesGuard } from 'src/common/guard/role.guard';
+import { Roles } from 'src/common/decorator/roles.decorator';
 
 //@UseFilters(HttpExceptionFilter)
+@UseGuards(RolesGuard)
 @Controller('cats')
 export class CatsController {
   constructor(private catsService: CatsService) {}
@@ -33,6 +38,7 @@ export class CatsController {
 
   // We can pass validation pip inside the body decorator as follow: @Body(new ValidationPipe()). But since we defined it in the global scope, we can skip this
   @UseFilters(new HttpExceptionFilter())
+  @Roles('admin')
   async create(@Body() createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
